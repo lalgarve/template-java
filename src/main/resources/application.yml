@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: deployo-template-java
+  profiles:
+    default: sandbox
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
