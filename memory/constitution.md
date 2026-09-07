@@ -210,6 +210,38 @@ diagrama pronto, renderizar de verdade contra um motor Mermaid real (ex.:
 `npx @mermaid-js/mermaid-cli`, mesmo motor que o GitHub usa para blocos ```` ```mermaid ````),
 não só validar visualmente/mentalmente a sintaxe.
 
+## Conversão de Markdown para HTML (Google Docs)
+
+Quando solicitado a converter um arquivo Markdown em HTML para importar no Google Docs (via
+Google Drive → abrir como Documento), seguir rigorosamente as regras de compatibilidade
+abaixo — o Google Drive ignora silenciosamente estilos que não as respeitam, sem aviso de
+erro, então o resultado só é validável abrindo de fato o documento importado:
+
+- **CSS estritamente inline**: nada de bloco `<style>` nem classes CSS — todo estilo vai no
+  atributo `style=""` de cada tag.
+- **Fontes**: usar apenas fontes nativas do Google Docs. Fonte padrão do projeto: `'Arial',
+  sans-serif`.
+- **Tabelas (crítico)**: o Google Docs ignora borda/fundo declarados só na tag `<table>` —
+  replicar borda, padding e cor de fundo em **todas** as tags `<th>` e `<td>`,
+  individualmente.
+- **Tamanhos e espaçamento**: unidades em `px`/`pt`; `line-height` para espaçamento de linha;
+  `margin-bottom` em parágrafos para simular a quebra de linha do Docs.
+- Saída é um único arquivo HTML autocontido (sem CSS externo, sem `<link>`).
+
+### Esquema de cores e tipografia
+
+| Elemento | Estilo |
+|---|---|
+| Fonte padrão | `font-family: 'Arial', sans-serif;` |
+| `<h1>` (título principal) | `color: #1a73e8; font-size: 26pt; font-weight: bold; margin-bottom: 12px;` |
+| `<h2>` (subtítulos) | `color: #202124; font-size: 18pt; font-weight: bold; margin-top: 16px; margin-bottom: 8px;` |
+| `<p>` (parágrafos) | `color: #3c4043; font-size: 11pt; line-height: 1.5; margin-bottom: 10px;` |
+| `<th>` (cabeçalho de tabela) | `background-color: #f1f3f4; color: #202124; font-weight: bold; padding: 8px; border: 1px solid #dadce0; font-size: 10.5pt;` |
+| `<td>` (célula de tabela) | `padding: 8px; border: 1px solid #dadce0; font-size: 10.5pt; color: #3c4043;` |
+| `<ul>`, `<ol>`, `<li>` (listas) | `margin-bottom: 4px; color: #3c4043; font-size: 11pt; line-height: 1.4;` |
+
+Esse esquema é o padrão do projeto — usar como está, salvo pedido explícito de outra paleta.
+
 ## Nomenclatura de ambientes
 
 Nomear ambientes pela **característica real da infraestrutura**, não por um rótulo genérico
