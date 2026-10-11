@@ -1,0 +1,7 @@
+* text=auto
+
+# Shell scripts run inside Linux containers, CI or WSL -- including the commit-msg hook in
+# .githooks/. CRLF breaks their shebang/`set -e` line and leaves a stray \r in values read from
+# them, so they stay LF whatever the checkout platform's default is.
+*.sh text eol=lf
+.githooks/* text eol=lf

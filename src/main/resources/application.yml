@@ -1,9 +1,29 @@
 spring:
   application:
     name: deployo-template-java
+  # Same default everywhere, tests included: the profile with the full infrastructure, so a
+  # plain `mvn verify` runs in the state CI tests. See memory/constitution.md, "Nomenclatura de
+  # ambientes".
   profiles:
-    default: sandbox
+    default: docker
+  # Own schema, never public -- every service can share one PostgreSQL instance, even one
+  # database, without colliding. Set here, not in the URL, so it holds for every profile,
+  # staging/production included, where the URL comes from outside. hikari.schema becomes the
+  # connection's search_path (Flyway's and Hibernate's connections included). See
+  # memory/constitution.md, "Banco de dados: um schema por serviço".
+  # TODO (ao usar este template): trocar deployo_template_java / deployo-template-java pelo nome
+  # do serviço.
+  datasource:
+    hikari:
+      schema: deployo_template_java
+  flyway:
+    schemas: deployo_template_java
+    table: deployo_template_java_schema_history
+    locations: classpath:db/migration-deployo-template-java
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: deployo_template_java

@@ -7,8 +7,10 @@ commit_msg_file="$1"
 first_line=$(head -n 1 "$commit_msg_file")
 
 pattern='^(feat|fix|refactor|test|docs|chore|decision): .+'
+# Mensagens geradas pelo próprio git: `git merge` (que também chama este hook) e `git revert`.
+git_generated='^(Merge|Revert) '
 
-if ! echo "$first_line" | grep -qE "$pattern"; then
+if ! echo "$first_line" | grep -qE "$pattern|$git_generated"; then
   echo "Commit rejeitado: a primeira linha deve seguir '<tipo>: <resumo>'." >&2
   echo "Tipos válidos: feat, fix, refactor, test, docs, chore, decision." >&2
   echo "Ver memory/constitution.md." >&2
