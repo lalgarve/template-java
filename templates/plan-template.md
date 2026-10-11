@@ -17,7 +17,9 @@ Decisões marcadas "em aberto" viram commit `decision:` quando resolvidas (ver
 
 ## Estrutura de módulos/pacotes
 
-<como o código desta feature se organiza dentro do projeto>
+<como o código desta feature se organiza dentro do projeto — em qual módulo (pacote de
+domínio) ele mora e por qual serviço Java os outros módulos o usam (ver "Fronteira entre módulos
+e serviços" em `memory/constitution.md`)>
 
 ## Riscos e trade-offs
 

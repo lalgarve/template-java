@@ -7,10 +7,13 @@ Quebra `plan.md` em tarefas pequenas, ordenadas, prontas para virar Issues (ver
 |---|---|---|---|---|
 | T001 | <tarefa> | — | [P] | #<n> |
 | T002 | <tarefa> | T001 | | #<n> |
+| T0NN | Critério de aceite de exceções (`memory/constitution.md`, "Critério de aceite: exceções e caminhos de erro exercitados por teste"): listar as classes de exceção criadas e os branches de exceção (`catch`, `@ExceptionHandler`, tradução de erro, retry, fallback) adicionados ou alterados; para cada um, apontar o teste que o exercita. O que não tiver teste é justificado em `plan.md` e avisado no chat ao abrir a PR. Registrar a lista aqui | todas as tasks de código | | #<n> |
 
 - **[P]** marca tarefas que não dependem umas das outras e podem ser feitas em qualquer
   ordem/em paralelo.
 - Cada linha vira um item de checklist na Issue-épico da feature, ou uma Issue própria
-  quando grande o suficiente para PR isolada.
-- Marcar o ID como concluído (`~~T001~~` ou checkbox `[x]`) quando o commit que a resolve for
-  mesclado — não deixar a tabela dessincronizada do estado real.
+  quando grande o suficiente para PR isolada (com o label `iteration-N`, se o projeto usar
+  iterações, além do label de tipo `feat`/`fix`/...).
+- Marcar o ID como concluído (`~~T001~~` ou checkbox `[x]`) na mesma PR que resolve a task,
+  junto com o registro da verificação (`memory/constitution.md`, "Rastreamento de trabalho via
+  Issues") — nunca "depois do merge", o que deixa a tabela dessincronizada do código.

@@ -1,0 +1,12 @@
+# Contract-first: every REST endpoint is described here before its controller exists, and the
+# implementation follows this file (memory/constitution.md, "Documentação viva por feature").
+# TODO (ao usar este template): trocar title/description e acrescentar os endpoints de cada
+# feature. Se o projeto não expuser API REST, apagar este arquivo.
+openapi: 3.1.0
+info:
+  title: deployo-template-java
+  description: Contrato da API REST do projeto.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+paths: {}
