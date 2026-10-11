@@ -5,6 +5,10 @@ on:
     branches: [main]
   push:
     branches: [main]
+  # Lets CI be requested on demand against any branch -- e.g. a feature branch with no open PR
+  # yet (Actions tab -> CI -> "Run workflow", or `gh workflow run ci.yml --ref <branch>`) --
+  # without widening the push: trigger above to run on every push to every branch.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -20,11 +24,15 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
+          # Java 21 is the project's supported baseline; LTS upgrades require an explicit
+          # project decision, not an automatic CI update (memory/constitution.md, "Baseline Java
+          # e upgrades de LTS").
           java-version: '21'
           cache: maven
 
-      # Real PostgreSQL, not the H2 sandbox profile -- see memory/constitution.md,
-      # "Testes: preferir real a fake sempre que der".
+      # Real PostgreSQL -- the docker profile is also the default one, so this is the same
+      # state a plain local `mvn verify` tests. See memory/constitution.md, "Testes exigem a
+      # infraestrutura de pé".
       - name: Start Postgres
         run: docker compose up -d --wait db
 
@@ -32,6 +40,16 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: docker
         run: mvn -B verify
+
+      # The PR comment below only gives percentages; the HTML report shows line by line what is
+      # uncovered. Uploaded even when the coverage gate failed the build, which is exactly when
+      # it is needed.
+      - name: Upload JaCoCo report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco
+          path: target/site/jacoco/
 
       # Runs even if the coverage gate above failed the build, so the PR still shows the
       # actual percentage instead of just a red check with no explanation.
